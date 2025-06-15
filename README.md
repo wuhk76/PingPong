@@ -3,8 +3,8 @@ Wireless monitor mode chat
 
 What is PingPong?
 
-	PingPong is an experimental, wireless, point-to-point chatting program written in Python for Linux operating systems. Unlike conventional chatting programs, PyChat directly sends
-WiFi packets from device to device, without the need of a router. It accomplishes this by using the packet injection ability of certain wireless cards in monitor mode.
+	PingPong is an experimental, wireless, point-to-point chatting program written in Python for Linux operating systems. Unlike conventional chatting programs, PingPong directly sends
+Wi-Fi packets from device to device, without the need of a router. It accomplishes this by using the packet injection ability of certain wireless cards in monitor mode. For instance, this can be advantageous with nearby neighbors, a public place that requires Wi-Fi payment, or a school or office that has severe internet restrictions.
 
 Setting Up
 
@@ -24,7 +24,7 @@ Receive: “:r” (no options)
 
 Send “:s” {message}
 
-	Sends message from the current interface to receiving interface. Unlike natural chat, the program will not go to receiving mode afterwords. 
+	Sends a message from the current interface to the receiving interface. Unlike natural chat, the program will not go to receiving mode afterwords. 
 
 Recursive Receive: “:rr” (no options)
 
@@ -32,7 +32,7 @@ Recursive Receive: “:rr” (no options)
 
 Recursive Send: “:rs” (no options)
 
-	Puts interface in constant sending mode, where it only sends messages.
+	Puts the interface in constant sending mode, where it only sends messages.
 
 File Receive:  “:fr” (no options)
 
@@ -40,7 +40,7 @@ File Receive:  “:fr” (no options)
 
 File Send: “:fs” {/path/to/file}
 
-	This is an experimental feature that sends a file to the receiving computer. Due to limitations of WiFi packets, it can only send files of a certian size. The maximum possiable size 
+	This is an experimental feature that sends a file to the receiving computer. Due to limitations of WiFi packets, it can only send files of a certain size. The maximum possible size 
 is around 2.2-2.3 kb, but it can be much smaller due to certain encodings.
 
 Quit: “^C” or “:q”
