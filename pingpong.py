@@ -9,16 +9,10 @@ class PingPong:
 
     def __init__(self):
         self.dest = ''
-        self.iface = ''
+        self.iface = []
         self.key = ''
 
     def send(self, message):
-        term = subprocess.run(f'ip link show {self.iface}', capture_output = True, text = True, shell = True)
-        term = term.stdout.split('radiotap')
-        term = term[1]
-        term = term.split('brd')
-        term = term[0]
-        mac = term.strip()
 
         try:
             message = message.encode('utf-8')
@@ -34,23 +28,17 @@ class PingPong:
         else:
             message = base64.b64encode(message)
 
-        packet = RadioTap() / Dot11(type = 2, subtype = 0, addr1 = self.dest, addr2 = mac, addr3 = mac) / LLC() / SNAP() / Raw(load = message)
-        sendp(packet, iface = self.iface, verbose = False)
+        packet = RadioTap() / Dot11(type = 2, subtype = 0, addr1 = self.dest, addr2 = self.iface[1], addr3 = self.iface[1]) / LLC() / SNAP() / Raw(load = message)
+        sendp(packet, iface = self.iface[0], verbose = False)
 
     def receive(self):
-        term = subprocess.run(f'ip link show {self.iface}', capture_output = True, text = True, shell = True)
-        term = term.stdout.split('radiotap')
-        term = term[1]
-        term = term.split('brd')
-        term = term[0]
-        mac = term.strip()
         rmessage = ''
 
         while len(rmessage) < 1:
-            packet = sniff(iface = self.iface, count = 1)
+            packet = sniff(iface = self.iface[0], count = 1)
             packet = packet[0]
 
-            if packet.haslayer(Raw) and packet.haslayer(Dot11) and packet.addr1 == mac:
+            if packet.haslayer(Raw) and packet.haslayer(Dot11) and packet.addr1 == self.iface[1]:
                 rmessage = packet[Raw]
 
         rmessage = rmessage.load
@@ -72,11 +60,18 @@ class PingPong:
         return rmessage
 
     def dialup(self, dest, iface, key):
+        subprocess.run(f'ip link set dev {iface} mtu 2304', shell = True)
+        term = subprocess.run(f'ip link show {iface}', capture_output = True, text = True, shell = True)
+        term = term.stdout.split('radiotap')
+        term = term[1]
+        term = term.split('brd')
+        term = term[0]
+
         self.dest = dest
-        self.iface = iface
+        self.iface = [iface, term.strip()]
         self.key = key.encode() if len(key) == 44 else ''
         encrypted = 'encrypted' if len(self.key) == 44 else ''
-        print(f'Connected to {self.dest} on interface {self.iface} {encrypted}')
+        print(f'Connected to {self.dest} on interface {self.iface[0]} {encrypted}')
 
 pingpong = PingPong()
 pingpong.dialup(input('Enter destination MAC address: '), input('Enter interface name: '), input('Enter encryption key (leave blank for no encryption): '))
@@ -148,6 +143,11 @@ while running:
         pingpong.send(tname)
         time.sleep(2)
         pingpong.send(tdata)
+
+    elif message[0:3] == ':cr':
+        newdest = message.split(' ')
+        newdest = newdest[1]
+        pingpong.dialup(newdest, pingpong.iface[0], pingpong.key)
 
     else:
         pingpong.send(message)
