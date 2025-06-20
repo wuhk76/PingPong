@@ -4,7 +4,7 @@ Wireless monitor mode chat
 What is PingPong?
 
 PingPong is an experimental, wireless, point-to-point chatting program written in Python for Linux operating systems. Unlike conventional chatting programs, PingPong directly sends
-Wi-Fi packets from device to device, without the need of a router. It accomplishes this by using the packet injection ability of certain wireless cards in monitor mode. For instance, this can be advantageous with nearby neighbors, a public place that requires Wi-Fi payment, or a school or office that has severe internet restrictions.
+Wi-Fi packets from device to device, without the need of a router. It accomplishes this by using the packet injection ability of certain wireless cards in monitor mode. For instance, this can be 	advantageous with nearby neighbors, a public place that requires Wi-Fi payment, or a school or office that has severe internet restrictions.
 
 Setting Up
 
