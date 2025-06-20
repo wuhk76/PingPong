@@ -43,8 +43,14 @@ File Send: “:fs” {/path/to/file}
 	This is an experimental feature that sends a file to the receiving computer. Due to limitations of Wi-Fi packets, it can only send files of a certain size. The maximum possible size 
 is around 2.2-2.3 kb, but it can be much smaller due to certain encodings.
 
+Change Recipient: “:cr” {new destination address}
+
+	This changes to a different address that is entered.
+
+Change Key: “:ck” {new key}
+
+	This changes to a new key.
+
 Quit: “^C” or “:q”
 
 	To quit, control C is the most reliable way to exit the program. Command “:q” can sometimes work, but only in some text fields. It cannot work when the program is receiving.
-
- 
