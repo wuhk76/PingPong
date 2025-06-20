@@ -71,6 +71,7 @@ class PingPong:
         self.iface = [iface, term.strip()]
         self.key = key.encode() if len(key) == 44 else ''
         encrypted = 'encrypted' if len(self.key) == 44 else ''
+
         print(f'Connected to {self.dest} on interface {self.iface[0]} {encrypted}')
 
 pingpong = PingPong()
@@ -107,7 +108,7 @@ while running:
     elif message == ':rs':
 
         while running:
-            rsinput = input('(you):')
+            rsinput = input('(you)rs:')
 
             if rsinput == ':q':
                 break
@@ -148,6 +149,11 @@ while running:
         newdest = message.split(' ')
         newdest = newdest[1]
         pingpong.dialup(newdest, pingpong.iface[0], pingpong.key)
+
+    elif message[0:3] == ':ck':
+        newkey = message.split(' ')
+        newkey = newkey[1]
+        pingpong.dialup(pingpong.dest, pingpong.iface[0], newkey)
 
     else:
         pingpong.send(message)
